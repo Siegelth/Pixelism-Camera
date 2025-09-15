@@ -1,5 +1,5 @@
-![License](https://img.shields.io/github/license/Siegelth/Pixelism_Camera)
-![Release](https://img.shields.io/github/v/release/Siegelth/Pixelism_Camera)
+[![License: MIT](https://img.shields.io/github/license/Siegelth/Pixelism_Camera)](https://github.com/Siegelth/Pixelism_Camera/blob/master/LICENSE)
+[![Latest Release](https://img.shields.io/github/v/release/Siegelth/Pixelism_Camera)](https://github.com/Siegelth/Pixelism_Camera/releases)
 
 
 I created a binary pixel camera, which is a project based on Android 12+ API.
