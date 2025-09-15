@@ -272,6 +272,7 @@ class MainActivity : AppCompatActivity() {
             }
 
         imageCapture = ImageCapture.Builder()
+            .setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY)
             .build()
 
         // 创建带参数的ImageAnalyzer
@@ -343,9 +344,12 @@ class MainActivity : AppCompatActivity() {
                             bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
                         }
 
+                        // 缩放到1080P而不裁切
+                        val scaledBitmap = scaleToFit1080P(bitmap)
+
                         // 应用二分法滤镜效果到保存的照片
                         val analyzer = ImageAnalyzer({ }, currentThreshold, currentBrightColor, currentDarkColor)
-                        val filteredBitmap = analyzer.applyBinaryFilter(bitmap, currentThreshold, currentBrightColor, currentDarkColor)
+                        val filteredBitmap = analyzer.applyBinaryFilter(scaledBitmap, currentThreshold, currentBrightColor, currentDarkColor)
                         saveToGallery(filteredBitmap)
                         tempFile.delete()
 
@@ -411,6 +415,22 @@ class MainActivity : AppCompatActivity() {
             270 -> (exifRotation + 90) % 360 // Landscape left
             else -> exifRotation
         }
+    }
+
+    private fun scaleToFit1080P(originalBitmap: Bitmap): Bitmap {
+        val originalWidth = originalBitmap.width
+        val originalHeight = originalBitmap.height
+
+        // 计算短边，确保短边缩放到1080
+        val minDimension = kotlin.math.min(originalWidth, originalHeight)
+        val scale = 1080f / minDimension
+
+        // 计算缩放后的尺寸
+        val scaledWidth = (originalWidth * scale).toInt()
+        val scaledHeight = (originalHeight * scale).toInt()
+
+        // 直接缩放，不添加黑边
+        return Bitmap.createScaledBitmap(originalBitmap, scaledWidth, scaledHeight, true)
     }
 
     private fun saveToGallery(bitmap: Bitmap) {
