@@ -272,6 +272,7 @@ class MainActivity : AppCompatActivity() {
             }
 
         imageCapture = ImageCapture.Builder()
+            .setTargetResolution(android.util.Size(1920, 1080))
             .build()
 
         // 创建带参数的ImageAnalyzer
